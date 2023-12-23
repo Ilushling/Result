@@ -5,6 +5,7 @@
   "type": "module",
   "author": "Ilushling",
   "license": "MIT",
+  "main": "./src/Result.js",
   "scripts": {
     "test": "node --test"
   },
