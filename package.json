@@ -1,0 +1,29 @@
+{
+  "name": "resd",
+  "version": "1.0.0",
+  "description": "Result",
+  "type": "module",
+  "author": "Ilushling",
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test"
+  },
+  "keywords": [
+    "result",
+    "success",
+    "failure",
+    "match",
+    "error"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ilushling/Result.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Ilushling/Result/issues"
+  },
+  "homepage": "https://github.com/Ilushling/Result#readme",
+  "devDependencies": {
+    "@types/node": "^20.10.5"
+  }
+}
