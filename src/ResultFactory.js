@@ -1,14 +1,30 @@
 /**
- * @typedef {import('./Result.js').default} Result
- * @typedef {import('./Result.js').ResultParams} ResultParams
+ * @template {boolean} S
+ * @template {any=} [D=undefined]
+ * @template {Error=} [E=undefined]
+ * @typedef {import('./Result.js').default<S, D, E>} Result
+ */
+
+/**
+ * @template {boolean} S
+ * @template {any=} [D=undefined]
+ * @template {Error=} [E=undefined]
+ * @typedef {import('./Result.js').ResultParams<S, D, E>} ResultParams
+ */
+
+/**
+ * @template {boolean} S
+ * @template {any=} [D=undefined]
+ * @template {Error=} [E=undefined]
+ * @typedef {import('./Result.js').ResultConstructable<S, D, E>} ResultConstructable
  */
 
 /**
  * @typedef {object} ResultFactoryParams
- * @property {new (params: ResultParams) => Result} Result
+ * @property {ResultConstructable<boolean, any, Error | undefined>} Result
  */
 export default class ResultFactory {
-  /** @type {new (params: ResultParams) => Result} */
+  /** @type {ResultFactoryParams['Result']} */
   #Result;
 
   /** @param {ResultFactoryParams} params */
@@ -17,16 +33,18 @@ export default class ResultFactory {
   }
 
   /**
-   * @param {any=} data
+   * @template {any=} [T=undefined]
+   * @param {T=} data
    */
   ok(data) {
-    return new this.#Result({ success: true, data });
+    return /** @type {Result<true, T>} */ (new this.#Result({ success: true, data, error: undefined }));
   }
 
   /**
-   * @param {Error} error
+   * @template {Error} E
+   * @param {E} error
    */
   fail(error) {
-    return new this.#Result({ success: false, error });
+    return /** @type {Result<false, undefined, E>} */ (new this.#Result({ success: false, data: undefined, error }));
   }
 }

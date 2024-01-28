@@ -13,7 +13,7 @@ describe('Result', () => {
     it('Success', () => {
       const result = resultFactory.ok();
 
-      assert.ok(result.isSuccess());
+      assert.ok(result.success);
     });
 
     it('Failure', () => {
@@ -21,7 +21,7 @@ describe('Result', () => {
 
       const result = resultFactory.fail(error);
 
-      assert.ok(result.isFailure());
+      assert.ok(result.failure);
     });
   });
 
@@ -49,7 +49,7 @@ describe('Result', () => {
 
       result.match({
         onSuccess: () => assert.ok(true),
-        onFailure: () => assert.ok(false)
+        onFailure: () => assert.fail('onFailure must not be called')
       });
     });
 
@@ -59,7 +59,7 @@ describe('Result', () => {
       const result = resultFactory.fail(error);
 
       result.match({
-        onSuccess: () => assert.ok(false),
+        onSuccess: () => assert.fail('onSuccess must not be called'),
         onFailure: () => assert.ok(true)
       });
     });

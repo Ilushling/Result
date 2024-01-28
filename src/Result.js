@@ -1,22 +1,43 @@
 /**
+ * @template {boolean} S
+ * @template {any=} [D=undefined]
+ * @template {Error=} [E=undefined]
  * @typedef {object} ResultProperties
- * @property {boolean} success
- * @property {any=} data
- * @property {Error=} error
- * 
- * @typedef {ResultProperties} ResultParams
+ * @property {S} success
+ * @property {D} data
+ * @property {E} error
+ */
+
+/**
+ * @template {boolean} S
+ * @template {any=} [D=undefined]
+ * @template {Error=} [E=undefined]
+ * @typedef {ResultProperties<S, D, E>} ResultParams
+ */
+
+/**
+ * @template {boolean} S
+ * @template {any=} [D=undefined]
+ * @template {Error=} [E=undefined]
+ * @typedef {new (params: ResultParams<S, D, E>) => Result<S, D, E>} ResultConstructable
+ */
+
+/**
+ * @template {boolean} S
+ * @template {any=} [D=undefined]
+ * @template {Error=} [E=undefined]
  */
 export default class Result {
-  /** @type {boolean} */
+  /** @type {S} */
   #success;
 
-  /** @type {any=} */
+  /** @type {D} */
   #data;
 
-  /** @type {Error=} */
+  /** @type {E} */
   #error;
 
-  /** @param {ResultParams} params */
+  /** @param {ResultParams<S, D, E>} params */
   constructor({ success, data, error }) {
     this.#success = success;
     this.#data = data;
@@ -24,7 +45,7 @@ export default class Result {
   }
 
   /**
-   * @returns {ResultProperties}
+   * @returns {ResultProperties<S, D, E>}
    */
   getProperties() {
     return {
@@ -32,6 +53,26 @@ export default class Result {
       data: this.#data,
       error: this.#error
     };
+  }
+  
+  get success() {
+    return this.isSuccess();
+  }
+  
+  get failure() {
+    return this.isFailure();
+  }
+
+  isSuccess() {
+    return this.#success;
+  }
+
+  /**
+   * @returns {S extends false ? true : false}
+   */
+  isFailure() {
+    // @ts-ignore
+    return !this.#success;
   }
 
   getData() {
@@ -42,18 +83,10 @@ export default class Result {
     return this.#error;
   }
 
-  isSuccess() {
-    return this.#success;
-  }
-
-  isFailure() {
-    return !this.#success;
-  }
-
   /**
    * @param {object} params
-   * @param {(data: any) => any} params.onSuccess
-   * @param {(error: Error) => any} params.onFailure
+   * @param {(data: D) => any} params.onSuccess
+   * @param {(error: E) => any=} params.onFailure
    */
   match({
     onSuccess,
@@ -61,6 +94,6 @@ export default class Result {
   }) {
     return this.isSuccess()
       ? onSuccess(this.getData())
-      : onFailure(/** @type {Error} */(this.getError()));
+      : onFailure?.(this.getError());
   }
 }
