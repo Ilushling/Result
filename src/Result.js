@@ -1,52 +1,47 @@
 /**
- * @template {boolean} S
- * @template {any=} [D=undefined]
- * @template {Error=} [E=undefined]
- * @typedef {object} ResultProperties
- * @property {S} success
- * @property {D} data
- * @property {E} error
+ * @template {any=} D
+ * @template {Error=} E
+ * 
+ * @typedef {import('./IResult.js').IResult<D, E>} IResult
  */
 
 /**
- * @template {boolean} S
- * @template {any=} [D=undefined]
- * @template {Error=} [E=undefined]
- * @typedef {ResultProperties<S, D, E>} ResultParams
+ * @template {any=} D
+ * @template {Error=} E
+ * 
+ * @typedef {import('./IResult.js').ResultProperties<D, E>} ResultProperties
  */
 
 /**
- * @template {boolean} S
- * @template {any=} [D=undefined]
- * @template {Error=} [E=undefined]
- * @typedef {new (params: ResultParams<S, D, E>) => Result<S, D, E>} ResultConstructable
+ * @template {any=} D
+ * @template {Error=} E
+ * 
+ * @typedef {import('./IResult.js').ResultParams<D, E>} ResultParams
  */
 
 /**
- * @template {boolean} S
- * @template {any=} [D=undefined]
- * @template {Error=} [E=undefined]
+ * @template {any=} D
+ * @template {Error=} E
+ * 
+ * @implements {IResult<D, E>}
  */
 export default class Result {
-  /** @type {S} */
+  /** @type {ResultProperties<D, E>['success']} */
   #success;
 
-  /** @type {D} */
+  /** @type {ResultProperties<D, E>['data']} */
   #data;
 
-  /** @type {E} */
+  /** @type {ResultProperties<D, E>['error']} */
   #error;
 
-  /** @param {ResultParams<S, D, E>} params */
+  /** @param {ResultParams<D, E>} params */
   constructor({ success, data, error }) {
     this.#success = success;
     this.#data = data;
     this.#error = error;
   }
 
-  /**
-   * @returns {ResultProperties<S, D, E>}
-   */
   getProperties() {
     return {
       success: this.#success,
@@ -54,11 +49,11 @@ export default class Result {
       error: this.#error
     };
   }
-  
+
   get success() {
     return this.isSuccess();
   }
-  
+
   get failure() {
     return this.isFailure();
   }
@@ -67,9 +62,7 @@ export default class Result {
     return this.#success;
   }
 
-  /**
-   * @returns {S extends false ? true : false}
-   */
+  /** @type {import('./IResult.js').IResult<D, E>['isFailure']} */
   isFailure() {
     // @ts-ignore
     return !this.#success;
@@ -83,17 +76,10 @@ export default class Result {
     return this.#error;
   }
 
-  /**
-   * @param {object} params
-   * @param {(data: D) => any} params.onSuccess
-   * @param {(error: E) => any=} params.onFailure
-   */
-  match({
-    onSuccess,
-    onFailure
-  }) {
-    return this.isSuccess()
-      ? onSuccess(this.getData())
+  /** @type {import('./IResult.js').IResult<D, E>['match']} */
+  match({ onSuccess, onFailure }) {
+    this.success
+      ? onSuccess?.(this.getData())
       : onFailure?.(this.getError());
   }
 }

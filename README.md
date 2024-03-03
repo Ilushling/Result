@@ -67,12 +67,12 @@ result.fail(error);
 
 #### isSuccess
 ```js
-const isSuccess = result.isSuccess();
+const isSuccess = result.success;
 ```
 
 #### isFailure
 ```js
-const isFailure = result.isFailure();
+const isFailure = result.failure;
 ```
 
 #### getData

@@ -39,16 +39,18 @@ describe('Result', () => {
 
       const result = resultFactory.fail(error);
 
-      assert.strictEqual(result.getError(), error);
+      assert.deepStrictEqual(result.getError(), error);
     });
   });
 
   describe('Match', () => {
     it('Success', () => {
-      const result = resultFactory.ok();
+      const data = 1;
+
+      const result = resultFactory.ok(data);
 
       result.match({
-        onSuccess: () => assert.ok(true),
+        onSuccess: _data => assert.strictEqual(_data, data),
         onFailure: () => assert.fail('onFailure must not be called')
       });
     });
@@ -60,7 +62,7 @@ describe('Result', () => {
 
       result.match({
         onSuccess: () => assert.fail('onSuccess must not be called'),
-        onFailure: () => assert.ok(true)
+        onFailure: _error => assert.deepStrictEqual(_error, error)
       });
     });
   });
