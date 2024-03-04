@@ -1,6 +1,6 @@
 /**
- * @template {any=} [D=undefined]
- * @template {Error=} [E=undefined]
+ * @template {any=} D
+ * @template {Error=} E
  * 
  * @typedef {object} ResultProperties
  * @property {E extends Error ? false : true} success
