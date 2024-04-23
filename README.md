@@ -2,13 +2,13 @@
 Result
 
 - [Features](#features);
-- [Usage](#usage).
+- [Usage](#usage):
     - [Prepare](#prepare);
-    - [Commands](#commands).
-        - [Result factory](#result-factory);
+    - [Commands](#commands):
+        - [Result factory](#result-factory):
             - [ok](#ok);
             - [fail](#fail).
-        - [Result](#result).
+        - [Result](#result):
             - [isSuccess](#isSuccess);
             - [isFailure](#isFailure);
             - [getData](#getData);

@@ -1,23 +1,17 @@
 /**
- * @template {any=} D
- * @template {Error=} E
- * 
- * @typedef {import('./IResult.js').IResult<D, E>} IResult
- */
-
-/**
- * @template {any=} D
- * @template {Error=} E
- * 
- * @typedef {import('./IResult.js').ResultConstructable<D, E>} ResultConstructable
- */
-
-/**
- * @typedef {object} ResultFactoryParams
- * @property {ResultConstructable<any, Error | undefined>} Result
+ * @implements {IResultFactory}
  */
 export default class ResultFactory {
-  /** @type {ResultFactoryParams['Result']} */
+  /**
+   * @typedef {import('./IResultFactory.js').IResultFactory} IResultFactory
+   */
+
+  /**
+   * @typedef {import('./IResultFactory.js').ResultFactoryParams} ResultFactoryParams
+   * @typedef {import('./IResultFactory.js').ResultFactoryProperties} ResultFactoryProperties
+   */
+
+  /** @type {ResultFactoryProperties['Result']} */
   #Result;
 
   /** @param {ResultFactoryParams} params */
@@ -25,19 +19,24 @@ export default class ResultFactory {
     this.#Result = Result;
   }
 
-  /**
-   * @template {any=} [T=undefined]
-   * @param {T=} data
-   */
+  /** @type {IResultFactory['ok']} */
   ok(data) {
-    return /** @type {IResult<T, undefined>} */ (new this.#Result({ success: true, data, error: undefined }));
+    //@ts-ignore
+    return new this.#Result({
+      success: true,
+      data,
+      error: undefined
+    });
   }
 
   /**
-   * @template {Error} E
-   * @param {E} error
+   * @type {IResultFactory['fail']}
    */
   fail(error) {
-    return /** @type {IResult<undefined, E>} */ (new this.#Result({ success: false, data: undefined, error }));
+    return new this.#Result({
+      success: /** @type {typeof error extends Error ? false : true} */ (false),
+      data: undefined,
+      error
+    });
   }
 }

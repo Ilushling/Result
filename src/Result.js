@@ -1,41 +1,41 @@
 /**
- * @template {any=} D
+ * @template {unknown=} T
  * @template {Error=} E
  * 
- * @typedef {import('./IResult.js').IResult<D, E>} IResult
- */
-
-/**
- * @template {any=} D
- * @template {Error=} E
- * 
- * @typedef {import('./IResult.js').ResultProperties<D, E>} ResultProperties
- */
-
-/**
- * @template {any=} D
- * @template {Error=} E
- * 
- * @typedef {import('./IResult.js').ResultParams<D, E>} ResultParams
- */
-
-/**
- * @template {any=} D
- * @template {Error=} E
- * 
- * @implements {IResult<D, E>}
+ * @implements {IResult<T, E>}
  */
 export default class Result {
-  /** @type {ResultProperties<D, E>['success']} */
+  /**
+   * @template {unknown=} T
+   * @template {Error=} E
+   * 
+   * @typedef {import('./IResult.js').IResult<T, E>} IResult
+   */
+
+  /**
+   * @template {unknown=} T
+   * @template {Error=} E
+   * 
+   * @typedef {import('./IResult.js').ResultProperties<T, E>} ResultProperties
+   */
+
+  /**
+   * @template {unknown=} T
+   * @template {Error=} E
+   * 
+   * @typedef {import('./IResult.js').ResultParams<T, E>} ResultParams
+   */
+
+  /** @type {ResultProperties<T, E>['success']} */
   #success;
 
-  /** @type {ResultProperties<D, E>['data']} */
+  /** @type {ResultProperties<T, E>['data']} */
   #data;
 
-  /** @type {ResultProperties<D, E>['error']} */
+  /** @type {ResultProperties<T, E>['error']} */
   #error;
 
-  /** @param {ResultParams<D, E>} params */
+  /** @param {ResultParams<T, E>} params */
   constructor({ success, data, error }) {
     this.#success = success;
     this.#data = data;
@@ -51,21 +51,20 @@ export default class Result {
   }
 
   get success() {
-    return this.isSuccess();
-  }
-
-  get failure() {
-    return this.isFailure();
-  }
-
-  isSuccess() {
     return this.#success;
   }
 
-  /** @type {import('./IResult.js').IResult<D, E>['isFailure']} */
+  get failure() {
+    return /** @type {E extends Error ? true : false} */ (!this.#success);
+  }
+
+  isSuccess() {
+    return this.success;
+  }
+
+  /** @type {IResult<T, E>['isFailure']} */
   isFailure() {
-    // @ts-ignore
-    return !this.#success;
+    return this.failure;
   }
 
   getData() {
@@ -76,9 +75,9 @@ export default class Result {
     return this.#error;
   }
 
-  /** @type {import('./IResult.js').IResult<D, E>['match']} */
-  match({ onSuccess, onFailure }) {
-    this.success
+  /** @type {IResult<T, E>['match']} */
+  async match({ onSuccess, onFailure }) {
+    await this.success
       ? onSuccess?.(this.getData())
       : onFailure?.(this.getError());
   }

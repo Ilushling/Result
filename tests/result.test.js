@@ -4,6 +4,11 @@ import { describe, it } from 'node:test';
 import Result from '../src/Result.js';
 import ResultFactory from '../src/ResultFactory.js';
 
+/**
+ * @typedef {import('../src/IResultFactory.js').IResultFactory} IResultFactory
+ */
+
+/** @type {IResultFactory} */
 const resultFactory = new ResultFactory({
   Result
 });
