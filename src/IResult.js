@@ -6,10 +6,10 @@
  * @property {() => ResultProperties<T, E>} getProperties
  * @property {E extends Error ? false : true} success
  * @property {E extends Error ? true : false} failure
- * @property {function (): E extends Error ? false : true} isSuccess
- * @property {function (): E extends Error ? true : false} isFailure
- * @property {function (): T} getData
- * @property {function (): E} getError
+ * @property {() => E extends Error ? false : true} isSuccess
+ * @property {() => E extends Error ? true : false} isFailure
+ * @property {() => T} getData
+ * @property {() => E} getError
  * @property {match<T, E>} match
  */
 
