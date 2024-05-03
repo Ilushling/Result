@@ -1,9 +1,18 @@
-export { default as Result } from './src/Result.js';
-export { default as ResultFactory } from './src/ResultFactory.js';
+import Result from './src/Result.js';
+import ResultFactory from './src/ResultFactory.js';
+
+export {
+  ResultFactory,
+  Result
+};
 
 /**
- * @template {any} D
+ * @template {unknown} [T=undefined]
  * @template {Error=} [E=undefined]
  * 
- * @typedef {import('./src/IResult.js').IResult<D, E>} IResult
+ * @typedef {import('./src/IResult.js').IResult<T, E>} IResult
+ */
+
+/**
+ * @typedef {import('./src/IResultFactory.js').IResultFactory} IResultFactory
  */
