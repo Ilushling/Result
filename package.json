@@ -25,6 +25,6 @@
   },
   "homepage": "https://github.com/Ilushling/Result#readme",
   "devDependencies": {
-    "@types/node": "^20.12.8"
+    "@types/node": "^22.1.0"
   }
 }

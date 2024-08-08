@@ -1,16 +1,11 @@
 import assert from 'node:assert';
 import { describe, it } from 'node:test';
 
-import Result from '../src/Result.js';
-import ResultFactory from '../src/ResultFactory.js';
+import Model from '../src/Model.js';
+import ModelFactory from '../src/ModelFactory.js';
 
-/**
- * @typedef {import('../src/IResultFactory.js').IResultFactory} IResultFactory
- */
-
-/** @type {IResultFactory} */
-const resultFactory = new ResultFactory({
-  Result
+const resultFactory = new ModelFactory({
+  Model
 });
 
 describe('Result', () => {

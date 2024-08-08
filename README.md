@@ -1,13 +1,15 @@
 # Result
-Result
+Result model with model factory and match on success & on failure callbacks.
 
 - [Features](#features);
 - [Usage](#usage):
     - [Prepare](#prepare);
+        - [Create model factory](#create-model-factory);
+        - [Import types](#import-types).
     - [Commands](#commands):
         - [Result factory](#result-factory):
-            - [ok](#ok);
-            - [fail](#fail).
+            - [Ok](#ok);
+            - [Fail](#fail).
         - [Result](#result):
             - [isSuccess](#isSuccess);
             - [isFailure](#isFailure);
@@ -26,32 +28,31 @@ Result
 - [Commands](#commands).
 
 ### Prepare
-Create factory with Result class.
-
+#### Create model factory
 ```js
-const resultFactory = new ResultFactory({
-  Result
+import { ResultModelFactory, ResultModel } from 'sufa';
+
+const resultModelFactory = new ResultModelFactory({
+  Model: ResultModel
 });
 ```
 
+#### Import types
+```js
+/**
+ * @import { IResultModelFactory, IResultModel } from 'sufa'
+ */
+```
+
 ### Commands
-- [Result factory](#result-factory);
-- [Result](#result).
-
 #### Result factory
-- [ok](#ok);
-- [fail](#fail).
-
-##### ok
+##### Ok
 ```js
-result.ok();
+const okResult = resultModelFactory.ok();
+const okDataResult = resultModelFactory.ok('data');
 ```
 
-```js
-result.ok('Data');
-```
-
-##### fail
+##### Fail
 ```js
 const error = new Error('Message');
 
@@ -65,27 +66,27 @@ result.fail(error);
 - [getError](#getError);
 - [match](#match).
 
-#### isSuccess
+##### isSuccess
 ```js
 const isSuccess = result.success;
 ```
 
-#### isFailure
+##### isFailure
 ```js
 const isFailure = result.failure;
 ```
 
-#### getData
+##### getData
 ```js
 const data = result.getData();
 ```
 
-#### getError
+##### getError
 ```js
 const error = result.getError();
 ```
 
-#### match
+##### match
 ```js
 result.match({
   onSuccess: () => {},

@@ -1,18 +1,23 @@
-import Result from './src/Result.js';
-import ResultFactory from './src/ResultFactory.js';
+import ResultModel from './src/Model.js';
+import ResultModelFactory from './src/ModelFactory.js';
+
+/**
+ * @import { IResultModel } from './src/IModel.js'
+ * @import { IResultModelFactory } from './src/IModelFactory.js'
+ */
 
 export {
-  ResultFactory,
-  Result
+  ResultModelFactory,
+  ResultModel
 };
 
 /**
  * @template {unknown} [T=undefined]
  * @template {Error=} [E=undefined]
  * 
- * @typedef {import('./src/IResult.js').IResult<T, E>} IResult
+ * @typedef {IResultModel<T, E>} IResultModel
  */
 
 /**
- * @typedef {import('./src/IResultFactory.js').IResultFactory} IResultFactory
+ * @typedef {IResultModelFactory} IResultModelFactory
  */
